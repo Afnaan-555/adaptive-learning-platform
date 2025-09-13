@@ -1,0 +1,355 @@
+<!--THIS IS TO INFORM THAT MY BACKEND CODE IS NOT LINKED WITH FRONTEND BECAUSE I DIDNT KNOW HOW TO DO IT AND I HAD LESS TIME BUT I HAD WRITTEN THE BACKEND code-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adaptive Learning Platform - Upload Document</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0; padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f0f4ff;
+      color: #222f3e;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Container */
+    .container {
+      background: #ffffff;
+      max-width: 720px;
+      width: 100%;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(70, 130, 180, 0.2);
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0; transform: translateY(40px);
+      } to {
+        opacity: 1; transform: translateY(0);
+      }
+    }
+
+    /* Header */
+    .logo {
+      width: 72px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 2.75rem;
+      margin: 0 0 36px;
+      color: #364f6b;
+      text-align: center;
+      letter-spacing: 2px;
+      user-select: text;
+      text-transform: uppercase;
+    }
+
+    /* Subtitle */
+    p.subtitle {
+      font-size: 1.15rem;
+      color: #627d98;
+      margin-bottom: 45px;
+      text-align: center;
+      max-width: 400px;
+      user-select: none;
+      font-weight: 600;
+    }
+
+    /* Form */
+    form {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* File input styling */
+    input[type="file"] {
+      flex-grow: 1;
+      padding: 16px 20px;
+      font-size: 1.125rem;
+      border-radius: 14px;
+      border: 2px solid #a2b9ff;
+      background-color: #f8faff;
+      cursor: pointer;
+      transition: border-color 0.3s ease, box-shadow 0.2s ease;
+      font-weight: 600;
+      color: #364f6b;
+      position: relative;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+    input[type="file"]::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+    input[type="file"]::before {
+      content: 'Choose PDF or Text file';
+      display: inline-block;
+      background: linear-gradient(135deg, #4a69ad 0%, #3b5998 100%);
+      color: white;
+      font-weight: 700;
+      font-size: 1.12rem;
+      padding: 12px 26px;
+      border-radius: 12px;
+      user-select: none;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 6px 20px rgba(59, 89, 152, 0.6);
+      transition: background-color 0.3s ease;
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    input[type="file"]:hover::before,
+    input[type="file"]:focus-visible::before {
+      background: linear-gradient(135deg, #2e4d89 0%, #255085 100%);
+      box-shadow: 0 8px 28px rgba(37, 66, 128, 0.75);
+    }
+    input[type="file"]:focus-visible {
+      border-color: #375595;
+      box-shadow: 0 0 12px #3c5298;
+      outline: none;
+    }
+
+    /* Upload button */
+    button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #3b5998 0%, #192f6a 100%);
+      color: white;
+      padding: 16px 40px;
+      border: none;
+      border-radius: 14px;
+      font-size: 1.25rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(29, 49, 101, 0.7);
+      transition: transform 0.2s ease, background 0.3s ease;
+      user-select: none;
+      min-width: 160px;
+      justify-content: center;
+      position: relative;
+    }
+    button:disabled {
+      background: #9aa8c1;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+      color: #4d556f;
+    }
+    button:hover:not(:disabled),
+    button:focus-visible:not(:disabled) {
+      background: linear-gradient(135deg, #274b80 0%, #162b5f 100%);
+      transform: translateY(-3px);
+      outline: none;
+      box-shadow: 0 10px 30px rgba(19, 34, 79, 0.9);
+    }
+
+    /* Upload icon */
+    button svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+      transition: transform 0.25s ease;
+    }
+    button:hover svg {
+      transform: translateY(-3px);
+    }
+
+    /* Spinner */
+    .spinner {
+      display: none;
+      border: 4px solid #aac2ff;
+      border-top: 4px solid #0d2359;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      animation: spin 1.2s linear infinite;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Status */
+    #status {
+      margin-top: 38px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      min-height: 32px;
+      text-align: center;
+      color: #222f3e;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+    #status.error {
+      color: #dd4b39;
+    }
+    #status.success {
+      color: #27ae60;
+    }
+
+    /* Extracted text container */
+    pre {
+      margin-top: 36px;
+      background: #e9efff;
+      padding: 28px 32px;
+      border-radius: 20px;
+      box-shadow: inset 0 0 40px #b8c5e3;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.1rem;
+      white-space: pre-wrap;
+      max-height: 440px;
+      overflow-y: auto;
+      color: #1c2b49;
+      user-select: text;
+      letter-spacing: 0.02em;
+    }
+
+    /* Accessibility focus */
+    input:focus-visible, button:focus-visible {
+      outline: 3px solid #4a69ad;
+      outline-offset: 2px;
+    }
+
+    /* Responsive */
+    @media (max-width: 680px) {
+      .container {
+        padding: 36px 24px;
+      }
+      form {
+        flex-direction: column;
+        gap: 20px;
+      }
+      input[type="file"] {
+        width: 100%;
+        padding-left: 180px;
+      }
+      input[type="file"]::before {
+        left: 18px;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container" role="main" aria-label="Adaptive Learning Platform file upload">
+    <img src="https://img.icons8.com/ios-filled/100/3b5998/book--v1.png" alt="Book icon" class="logo" aria-hidden="true" />
+    <h1>Upload Your Study Document</h1>
+    <p class="subtitle">Upload your PDF or text file to get instant text extraction for adaptive learning.</p>
+    <form id="uploadForm" aria-describedby="status" aria-live="polite" aria-busy="false">
+      <input type="file" id="fileInput" name="file" accept=".pdf,.txt" required aria-required="true" aria-label="Upload PDF or Text document" />
+      <button type="submit" aria-disabled="false" aria-label="Submit document for processing">
+        Upload
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-upload" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <span id="spinner" class="spinner" aria-hidden="true"></span>
+      </button>
+    </form>
+    <div id="status" role="alert" aria-live="polite"></div>
+    <pre id="extractedText" tabindex="0" aria-label="Extracted text display area"></pre>
+  </main>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const extractedText = document.getElementById('extractedText');
+    const status = document.getElementById('status');
+    const spinner = document.getElementById('spinner');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      form.setAttribute('aria-busy', 'true');
+      status.textContent = '';
+      status.className = '';
+      extractedText.textContent = '';
+      spinner.style.display = 'inline-block';
+      form.querySelector('button').disabled = true;
+      form.querySelector('button').setAttribute('aria-disabled', 'true');
+
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        status.textContent = 'Please select a file before uploading.';
+        status.classList.add('error');
+        finishLoading();
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+      status.textContent = 'Uploading and processing your document...';
+
+      try {
+        const response = await fetch('http://localhost:5000/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error(`Upload failed: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        extractedText.textContent = data.text || 'No text found in this document.';
+        status.textContent = 'Document processed successfully!';
+        status.classList.add('success');
+      } catch (error) {
+        status.textContent = `Error: ${error.message}`;
+        status.classList.add('error');
+      } finally {
+        finishLoading();
+      }
+    });
+
+    function finishLoading() {
+      spinner.style.display = 'none';
+      form.querySelector('button').disabled = false;
+      form.querySelector('button').setAttribute('aria-disabled', 'false');
+      form.setAttribute('aria-busy', 'false');
+    }
+  </script>
+</body>
+</html>
